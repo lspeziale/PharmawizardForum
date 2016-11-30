@@ -23,8 +23,8 @@ public class Topic {
 	@Column(name="TITLE", nullable=false, unique=true)
 	private String title;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="ID_USER")
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="USER_PROFILE")
 	private UserProfile author;
 	
 	@Column(name="DATE_CREATED", nullable=false, unique=false)
@@ -62,6 +62,12 @@ public class Topic {
 	}
 	public void setViews(Long views) {
 		this.views = views;
+	}
+	public Long getIdTopic() {
+		return idTopic;
+	}
+	public void setIdTopic(Long idTopic) {
+		this.idTopic = idTopic;
 	}
 	
 }
