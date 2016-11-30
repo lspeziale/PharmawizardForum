@@ -1,15 +1,23 @@
 package com.pharmawizard.domain;
 
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 
 @Entity
 @Table(name = "USER_PROFILE")
@@ -34,6 +42,12 @@ public class UserProfile {
 
 	@OneToMany(mappedBy = "author")
 	private List<Topic> topics;
+	
+	@NotEmpty
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "USER_PROFILE_USER_ROLE", joinColumns = { @JoinColumn(name = "ID_USER") }, inverseJoinColumns = {
+			@JoinColumn(name = "USER_ROLE_ID") })
+	private Set<UserRole> userRoles = new HashSet<UserRole>();
 
 	public String getName() {
 		return name;
