@@ -2,7 +2,6 @@ package com.pharmawizard.domain;
 
 import java.util.List;
 
-import javax.management.relation.Role;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 
 @Entity
 @Table(name = "USER_PROFILE")
@@ -34,10 +32,7 @@ public class UserProfile {
 	@Column(name = "PASSWORD", nullable = false)
 	private String password;
 
-	@Column(name = "role", nullable = false)
-	private Role role;
-	
-	@OneToMany(mappedBy="author")
+	@OneToMany(mappedBy = "author")
 	private List<Topic> topics;
 
 	public String getName() {
@@ -94,14 +89,6 @@ public class UserProfile {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
 	}
 
 	@Override
