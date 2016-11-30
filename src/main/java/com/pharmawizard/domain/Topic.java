@@ -26,7 +26,6 @@ public class Topic {
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="USER_PROFILE")
 
-
 	private UserProfile author;
 
 	@Column(name = "DATE_CREATED", nullable = false, unique = false)
@@ -74,6 +73,7 @@ public class Topic {
 	public void setViews(Long views) {
 		this.views = views;
 	}
+
 
 	public Long getIdTopic() {
 		return idTopic;
