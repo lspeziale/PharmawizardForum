@@ -1,5 +1,5 @@
 package com.pharmawizard.domain;
 
-public class asd {
+public class UserProfile {
 
 }
