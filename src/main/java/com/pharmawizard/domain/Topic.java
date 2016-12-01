@@ -48,10 +48,10 @@ public class Topic {
 	@JsonBackReference
 	private List<Comment> comments;
 
-	// Relation between Cathegory & Topic
+	// Relation between Category & Topic
 	@OneToMany(mappedBy = "topics")
 	@JsonBackReference
-	private List<Cathegory> cathegories;
+	private List<Category> categories;
 
 	public Long getIdTopic() {
 		return idTopic;
@@ -101,12 +101,12 @@ public class Topic {
 		this.comments = comments;
 	}
 
-	public List<Cathegory> getCathegories() {
-		return cathegories;
+	public List<Category> getCategories() {
+		return categories;
 	}
 
-	public void setCathegories(List<Cathegory> cathegories) {
-		this.cathegories = cathegories;
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
 	}
 
 	public String getLastComment() {
@@ -121,7 +121,7 @@ public class Topic {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((cathegories == null) ? 0 : cathegories.hashCode());
+		result = prime * result + ((categories == null) ? 0 : categories.hashCode());
 		result = prime * result + ((comments == null) ? 0 : comments.hashCode());
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result + ((idTopic == null) ? 0 : idTopic.hashCode());
@@ -141,10 +141,10 @@ public class Topic {
 		if (getClass() != obj.getClass())
 			return false;
 		Topic other = (Topic) obj;
-		if (cathegories == null) {
-			if (other.cathegories != null)
+		if (categories == null) {
+			if (other.categories != null)
 				return false;
-		} else if (!cathegories.equals(other.cathegories))
+		} else if (!categories.equals(other.categories))
 			return false;
 		if (comments == null) {
 			if (other.comments != null)
@@ -201,8 +201,8 @@ public class Topic {
 		builder.append(users);
 		builder.append(", comments=");
 		builder.append(comments);
-		builder.append(", cathegories=");
-		builder.append(cathegories);
+		builder.append(", categories=");
+		builder.append(categories);
 		builder.append("]");
 		return builder.toString();
 	}

@@ -17,29 +17,29 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-@Table(name = "CATHEGORY")
-public class Cathegory {
+@Table(name = "CATEGORY")
+public class Category {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID_CATHEGORY", nullable = false, updatable = false)
-	private Long idCathegory;
+	@Column(name = "ID_CATEGORY", nullable = false, updatable = false)
+	private Long idCategory;
 
 	@Column(name = "NAME", nullable = false, unique = true)
 	private String name;
 
-	// Relation between Cathegory & Topic
+	// Relation between Category & Topic
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonManagedReference
-	@JoinColumn(name = "TOPIC_CATHEGORY")
+	@JoinColumn(name = "TOPIC_CATEGORY")
 	private Topic topics;
 
-	public Long getIdCathegory() {
-		return idCathegory;
+	public Long getIdCategory() {
+		return idCategory;
 	}
 
-	public void setIdCathegory(Long idCathegory) {
-		this.idCathegory = idCathegory;
+	public void setIdCategory(Long idCategory) {
+		this.idCategory = idCategory;
 	}
 
 	public String getName() {
@@ -62,7 +62,7 @@ public class Cathegory {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((idCathegory == null) ? 0 : idCathegory.hashCode());
+		result = prime * result + ((idCategory == null) ? 0 : idCategory.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((topics == null) ? 0 : topics.hashCode());
 		return result;
@@ -76,11 +76,11 @@ public class Cathegory {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Cathegory other = (Cathegory) obj;
-		if (idCathegory == null) {
-			if (other.idCathegory != null)
+		Category other = (Category) obj;
+		if (idCategory == null) {
+			if (other.idCategory != null)
 				return false;
-		} else if (!idCathegory.equals(other.idCathegory))
+		} else if (!idCategory.equals(other.idCategory))
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -98,8 +98,8 @@ public class Cathegory {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Cathegory [idCathegory=");
-		builder.append(idCathegory);
+		builder.append("Category [idCategory=");
+		builder.append(idCategory);
 		builder.append(", name=");
 		builder.append(name);
 		builder.append(", topics=");
