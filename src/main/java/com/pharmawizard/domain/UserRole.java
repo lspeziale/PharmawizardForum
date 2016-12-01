@@ -1,12 +1,18 @@
 package com.pharmawizard.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -20,10 +26,14 @@ public class UserRole implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID_ROLE", nullable = false, updatable = false)
 	private Integer id;
 
 	@Column(name = "TYPE", length = 15, unique = true, nullable = false)
 	private String type = Role.USER.getUserProfileType();
+
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "userRoles")
+	private Set<UserProfile> users = new HashSet<UserProfile>(0);
 
 	public Integer getId() {
 		return id;

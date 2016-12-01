@@ -1,6 +1,7 @@
 package com.pharmawizard.domain;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,10 +10,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
-@Table(name = "Topic")
+@Table(name = "TOPIC")
 public class Topic {
 
 	@Id
@@ -23,23 +28,37 @@ public class Topic {
 	@Column(name = "TITLE", nullable = false, unique = true)
 	private String title;
 
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="USER_PROFILE")
-
-	private UserProfile author;
-
 	@Column(name = "DATE_CREATED", nullable = false, unique = false)
 	private Date date;
 
 	@Column(name = "VIEWS", nullable = false, unique = false)
 	private Long views;
 
-	public Long getId() {
+	@Column(name = "LAST_COMMENT", nullable = false, unique = false)
+	private String lastComment;
+
+	// Relation between Topic & UserProfile
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
+	@JoinColumn(name = "USER_PROFILE")
+	private UserProfile users;
+
+	// Relation between Topic & Comment
+	@OneToMany(mappedBy = "topics")
+	@JsonBackReference
+	private List<Comment> comments;
+
+	// Relation between Cathegory & Topic
+	@OneToMany(mappedBy = "topics")
+	@JsonBackReference
+	private List<Cathegory> cathegories;
+
+	public Long getIdTopic() {
 		return idTopic;
 	}
 
-	public void setId(Long id) {
-		this.idTopic = id;
+	public void setIdTopic(Long idTopic) {
+		this.idTopic = idTopic;
 	}
 
 	public String getTitle() {
@@ -48,14 +67,6 @@ public class Topic {
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public UserProfile getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(UserProfile author) {
-		this.author = author;
 	}
 
 	public Date getDate() {
@@ -74,23 +85,49 @@ public class Topic {
 		this.views = views;
 	}
 
+	public UserProfile getUsers() {
+		return users;
+	}
 
-	public Long getIdTopic() {
-		return idTopic;
+	public void setUsers(UserProfile users) {
+		this.users = users;
 	}
-	public void setIdTopic(Long idTopic) {
-		this.idTopic = idTopic;
+
+	public List<Comment> getComments() {
+		return comments;
 	}
-	
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public List<Cathegory> getCathegories() {
+		return cathegories;
+	}
+
+	public void setCathegories(List<Cathegory> cathegories) {
+		this.cathegories = cathegories;
+	}
+
+	public String getLastComment() {
+		return lastComment;
+	}
+
+	public void setLastComment(String lastComment) {
+		this.lastComment = lastComment;
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((author == null) ? 0 : author.hashCode());
+		result = prime * result + ((cathegories == null) ? 0 : cathegories.hashCode());
+		result = prime * result + ((comments == null) ? 0 : comments.hashCode());
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result + ((idTopic == null) ? 0 : idTopic.hashCode());
+		result = prime * result + ((lastComment == null) ? 0 : lastComment.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		result = prime * result + ((users == null) ? 0 : users.hashCode());
 		result = prime * result + ((views == null) ? 0 : views.hashCode());
 		return result;
 	}
@@ -104,10 +141,15 @@ public class Topic {
 		if (getClass() != obj.getClass())
 			return false;
 		Topic other = (Topic) obj;
-		if (author == null) {
-			if (other.author != null)
+		if (cathegories == null) {
+			if (other.cathegories != null)
 				return false;
-		} else if (!author.equals(other.author))
+		} else if (!cathegories.equals(other.cathegories))
+			return false;
+		if (comments == null) {
+			if (other.comments != null)
+				return false;
+		} else if (!comments.equals(other.comments))
 			return false;
 		if (date == null) {
 			if (other.date != null)
@@ -119,10 +161,20 @@ public class Topic {
 				return false;
 		} else if (!idTopic.equals(other.idTopic))
 			return false;
+		if (lastComment == null) {
+			if (other.lastComment != null)
+				return false;
+		} else if (!lastComment.equals(other.lastComment))
+			return false;
 		if (title == null) {
 			if (other.title != null)
 				return false;
 		} else if (!title.equals(other.title))
+			return false;
+		if (users == null) {
+			if (other.users != null)
+				return false;
+		} else if (!users.equals(other.users))
 			return false;
 		if (views == null) {
 			if (other.views != null)
@@ -139,12 +191,18 @@ public class Topic {
 		builder.append(idTopic);
 		builder.append(", title=");
 		builder.append(title);
-		builder.append(", author=");
-		builder.append(author);
 		builder.append(", date=");
 		builder.append(date);
 		builder.append(", views=");
 		builder.append(views);
+		builder.append(", lastComment=");
+		builder.append(lastComment);
+		builder.append(", users=");
+		builder.append(users);
+		builder.append(", comments=");
+		builder.append(comments);
+		builder.append(", cathegories=");
+		builder.append(cathegories);
 		builder.append("]");
 		return builder.toString();
 	}
