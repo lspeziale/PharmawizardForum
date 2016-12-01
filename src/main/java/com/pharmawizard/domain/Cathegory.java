@@ -18,7 +18,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "CATHEGORY")
-
 public class Cathegory {
 
 	@Id
