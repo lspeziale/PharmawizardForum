@@ -32,9 +32,6 @@ public class UserRole implements Serializable {
 	@Column(name = "TYPE", length = 15, unique = true, nullable = false)
 	private String type = Role.USER.getUserProfileType();
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "userRoles")
-	private Set<UserProfile> users = new HashSet<UserProfile>(0);
-
 	public Integer getId() {
 		return id;
 	}

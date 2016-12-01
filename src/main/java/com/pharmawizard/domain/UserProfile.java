@@ -1,5 +1,6 @@
 package com.pharmawizard.domain;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -42,19 +43,16 @@ public class UserProfile {
 
 	@Column(name = "PASSWORD", nullable = false)
 	private String password;
+	
+	@Column(name = "ROLES", nullable = false)
+	private String[] roles;
 
 	// Relation between Topic & UserProfile
 	@OneToMany(mappedBy = "users")
 	@JsonBackReference
 	private List<Topic> topics;
 
-	// Relation between UserProfile & UserRole
-	@NotEmpty
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JsonManagedReference
-	@JoinTable(name = "USER_PROFILE_USER_ROLE", joinColumns = { @JoinColumn(name = "ID_USER") }, inverseJoinColumns = {
-			@JoinColumn(name = "ID_ROLE") })
-	private Set<UserRole> userRoles = new HashSet<UserRole>();
+	
 
 	// Relation between UserProfile & Comment
 	@OneToMany(mappedBy = "users")
@@ -109,12 +107,12 @@ public class UserProfile {
 		this.topics = topics;
 	}
 
-	public Set<UserRole> getUserRoles() {
-		return userRoles;
+	public String[] getRoles() {
+		return roles;
 	}
 
-	public void setUserRoles(Set<UserRole> userRoles) {
-		this.userRoles = userRoles;
+	public void setRoles(String[] roles) {
+		this.roles = roles;
 	}
 
 	public List<Comment> getComments() {
@@ -134,8 +132,8 @@ public class UserProfile {
 		result = prime * result + ((idUser == null) ? 0 : idUser.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + Arrays.hashCode(roles);
 		result = prime * result + ((topics == null) ? 0 : topics.hashCode());
-		result = prime * result + ((userRoles == null) ? 0 : userRoles.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
@@ -174,15 +172,12 @@ public class UserProfile {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
+		if (!Arrays.equals(roles, other.roles))
+			return false;
 		if (topics == null) {
 			if (other.topics != null)
 				return false;
 		} else if (!topics.equals(other.topics))
-			return false;
-		if (userRoles == null) {
-			if (other.userRoles != null)
-				return false;
-		} else if (!userRoles.equals(other.userRoles))
 			return false;
 		if (username == null) {
 			if (other.username != null)
@@ -205,14 +200,15 @@ public class UserProfile {
 		builder.append(email);
 		builder.append(", password=");
 		builder.append(password);
+		builder.append(", roles=");
+		builder.append(Arrays.toString(roles));
 		builder.append(", topics=");
 		builder.append(topics);
-		builder.append(", userRoles=");
-		builder.append(userRoles);
 		builder.append(", comments=");
 		builder.append(comments);
 		builder.append("]");
 		return builder.toString();
 	}
 
+	
 }
