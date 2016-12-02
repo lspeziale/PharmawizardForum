@@ -1,5 +1,7 @@
 package com.pharmawizard.security;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -22,11 +25,17 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
+	 @Autowired
+	    DataSource dataSource;
+	
 	@Autowired
 	PersistentTokenRepository tokenRepository;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+   
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return super.userDetailsService();
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -47,16 +56,21 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
           .logoutSuccessUrl("/")
           .permitAll()
           .and()
-          .rememberMe().rememberMeParameter("remember-me").tokenRepository(tokenRepository)
-			.tokenValiditySeconds(86400)
-			.and().csrf().and().exceptionHandling().accessDeniedPage("/Access_Denied");
+          .rememberMe();
     }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(userDetailsService)
+                .userDetailsService(userDetailsService())
                 .passwordEncoder(new BCryptPasswordEncoder());
+    }
+    
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl tokenRepositoryImpl = new JdbcTokenRepositoryImpl();
+        tokenRepositoryImpl.setDataSource(dataSource);
+        return tokenRepositoryImpl;
     }
     
     @Bean
@@ -67,7 +81,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-		authenticationProvider.setUserDetailsService(userDetailsService);
+		authenticationProvider.setUserDetailsService(userDetailsService());
 		authenticationProvider.setPasswordEncoder(passwordEncoder());
 		return authenticationProvider;
 	}
@@ -75,7 +89,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public PersistentTokenBasedRememberMeServices getPersistentTokenBasedRememberMeServices() {
 		PersistentTokenBasedRememberMeServices tokenBasedservice = new PersistentTokenBasedRememberMeServices(
-				"remember-me", userDetailsService, tokenRepository);
+				"remember-me", userDetailsService(), tokenRepository);
 		return tokenBasedservice;
 	}
 
