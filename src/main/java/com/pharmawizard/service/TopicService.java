@@ -1,17 +1,16 @@
 package com.pharmawizard.service;
 
-import java.util.Collection;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-
+import java.util.List;
 import com.pharmawizard.domain.Topic;
 
-@Service
 public interface TopicService {
 
-	Topic getTopicById(long idTopic);
+	Topic getTopicById(Long idTopic);
+	
+	boolean deleteTopic(Topic topic);
+	
+	Topic updateTopic(Topic topic);
 
-	Collection<Topic> getAllTopics();
+	List<Topic> getAllTopics();
 
 }

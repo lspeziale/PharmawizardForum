@@ -1,5 +1,6 @@
 package com.pharmawizard.domain;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
@@ -18,7 +19,12 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "TOPIC")
-public class Topic {
+public class Topic implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6872625241983976407L;
 
 	@Id
 	@GeneratedValue

@@ -1,5 +1,6 @@
 package com.pharmawizard.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -18,7 +19,12 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "CATEGORY")
-public class Category {
+public class Category implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5614559377777283207L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +39,10 @@ public class Category {
 	@JsonManagedReference
 	@JoinColumn(name = "TOPIC_CATEGORY")
 	private Topic topics;
+
+	public Category(String name) {
+		this.name = name;
+	}
 
 	public Long getIdCategory() {
 		return idCategory;

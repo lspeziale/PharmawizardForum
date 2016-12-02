@@ -28,7 +28,7 @@ public class UserProfileDetailsService implements UserDetailsService{
 		UserProfile user = repository.findByUsername(username);
 		return new org.springframework.security.core.userdetails.User(
 				user.getUsername(), user.getPassword(),
-				Stream.of(user.getRoles())
+				Stream.of(user.getRole())
 					.map(SimpleGrantedAuthority::new)
 					.collect(Collectors.toList()));
 	}

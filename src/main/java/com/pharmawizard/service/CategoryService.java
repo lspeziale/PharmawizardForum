@@ -1,17 +1,19 @@
 package com.pharmawizard.service;
 
-import java.util.Collection;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
+import java.util.List;
 
 import com.pharmawizard.domain.Category;
 
-@Service
 public interface CategoryService {
 
 	Category getCategoryById(long idCategory);
 
-	Collection<Category> getAllCategories();
+	Category createCategory(Category category);
+
+	Category updateCategory(Category category);
+
+	boolean deleteCategory(Category category);
+
+	List<Category> getAllCategories();
 
 }

@@ -1,14 +1,15 @@
 package com.pharmawizard.service;
 
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-
 import com.pharmawizard.domain.Comment;
 
-@Service
 public interface CommentService {
 
-	Comment getCommentById(long idComment);
+	Comment getCommentById(Long idComment);
+
+	Comment createComment(Comment comment);
+
+	boolean deleteComment(Comment comment);
+
+	Comment saveComment(Comment comment);
 
 }

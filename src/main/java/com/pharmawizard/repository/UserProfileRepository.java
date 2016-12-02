@@ -1,10 +1,13 @@
 package com.pharmawizard.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 import com.pharmawizard.domain.UserProfile;
 
-public interface UserProfileRepository extends CrudRepository<UserProfile, Long> {
+public interface UserProfileRepository extends JpaRepository<UserProfile, Long> {
 
 	UserProfile findByUsername(String username);
-	
+
+	UserProfile findUserByEmail(String email);
 }

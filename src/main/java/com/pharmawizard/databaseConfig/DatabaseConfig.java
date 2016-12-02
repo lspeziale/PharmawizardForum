@@ -1,4 +1,4 @@
-package com.pharmawizard.config;
+package com.pharmawizard.databaseConfig;
 
 import java.util.Properties;
 

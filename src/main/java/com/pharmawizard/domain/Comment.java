@@ -1,5 +1,6 @@
 package com.pharmawizard.domain;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -25,15 +26,17 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "COMMENT")
-public class Comment {
+public class Comment implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5343137081532275884L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID_COMMENT", nullable = false, updatable = false)
 	private Long idComment;
-
-	@Column(name = "AUTHOR", nullable = false, unique = false)
-	private String author;
 
 	@Column(name = "TEXT", nullable = false, unique = false)
 	private String text;
@@ -59,14 +62,6 @@ public class Comment {
 
 	public void setIdComment(Long idComment) {
 		this.idComment = idComment;
-	}
-
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
 	}
 
 	public String getText() {
@@ -105,7 +100,6 @@ public class Comment {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((author == null) ? 0 : author.hashCode());
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result + ((idComment == null) ? 0 : idComment.hashCode());
 		result = prime * result + ((text == null) ? 0 : text.hashCode());
@@ -123,11 +117,6 @@ public class Comment {
 		if (getClass() != obj.getClass())
 			return false;
 		Comment other = (Comment) obj;
-		if (author == null) {
-			if (other.author != null)
-				return false;
-		} else if (!author.equals(other.author))
-			return false;
 		if (date == null) {
 			if (other.date != null)
 				return false;
@@ -161,8 +150,6 @@ public class Comment {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Comment [idComment=");
 		builder.append(idComment);
-		builder.append(", author=");
-		builder.append(author);
 		builder.append(", text=");
 		builder.append(text);
 		builder.append(", date=");

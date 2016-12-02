@@ -1,22 +1,24 @@
 package com.pharmawizard.service;
 
-import java.util.Collection;
-import java.util.Optional;
 
-import org.springframework.stereotype.Service;
+import java.util.List;
 
-import com.pharmawizard.domain.UserCreateForm;
 import com.pharmawizard.domain.UserProfile;
 
-@Service
 public interface UserProfileService {
 
-	UserProfile getUserById(long idUser);
+	UserProfile getUserById(Long idUser);
+
+	UserProfile getUserByUsername(String username);
 
 	UserProfile getUserByEmail(String email);
 
-	Collection<UserProfile> getAllUsers();
+	List<UserProfile> getAllUsers();
 
-	UserProfile create(UserCreateForm form);
+	UserProfile createUser(UserProfile user);
+
+	UserProfile updateUser(UserProfile user);
+
+	void deleteUser(Long idUser);
 
 }

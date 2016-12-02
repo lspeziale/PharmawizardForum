@@ -1,5 +1,6 @@
 package com.pharmawizard.domain;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -25,11 +26,15 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "USER_PROFILE")
-public class UserProfile {
+public class UserProfile implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1784967393489677968L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID_USER", nullable = false, updatable = false)
 	private Long idUser;
 
 	@Column(name = "NAME", nullable = false, unique = false)
@@ -43,21 +48,21 @@ public class UserProfile {
 
 	@Column(name = "PASSWORD", nullable = false)
 	private String password;
-	
-	@Column(name = "ROLES", nullable = false)
-	private String[] roles;
 
 	// Relation between Topic & UserProfile
 	@OneToMany(mappedBy = "users")
 	@JsonBackReference
 	private List<Topic> topics;
 
-	
-
 	// Relation between UserProfile & Comment
 	@OneToMany(mappedBy = "users")
 	@JsonBackReference
 	private List<Comment> comments;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
+	@JoinColumn(name = "ROLES")
+	private UserRole role;
 
 	public Long getIdUser() {
 		return idUser;
@@ -107,20 +112,20 @@ public class UserProfile {
 		this.topics = topics;
 	}
 
-	public String[] getRoles() {
-		return roles;
-	}
-
-	public void setRoles(String[] roles) {
-		this.roles = roles;
-	}
-
 	public List<Comment> getComments() {
 		return comments;
 	}
 
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
+	}
+
+	public UserRole getRole() {
+		return role;
+	}
+
+	public void setRole(UserRole role) {
+		this.role = role;
 	}
 
 	@Override
@@ -132,7 +137,7 @@ public class UserProfile {
 		result = prime * result + ((idUser == null) ? 0 : idUser.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + Arrays.hashCode(roles);
+		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		result = prime * result + ((topics == null) ? 0 : topics.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
@@ -172,7 +177,10 @@ public class UserProfile {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
-		if (!Arrays.equals(roles, other.roles))
+		if (role == null) {
+			if (other.role != null)
+				return false;
+		} else if (!role.equals(other.role))
 			return false;
 		if (topics == null) {
 			if (other.topics != null)
@@ -200,15 +208,14 @@ public class UserProfile {
 		builder.append(email);
 		builder.append(", password=");
 		builder.append(password);
-		builder.append(", roles=");
-		builder.append(Arrays.toString(roles));
 		builder.append(", topics=");
 		builder.append(topics);
 		builder.append(", comments=");
 		builder.append(comments);
+		builder.append(", role=");
+		builder.append(role);
 		builder.append("]");
 		return builder.toString();
 	}
 
-	
 }

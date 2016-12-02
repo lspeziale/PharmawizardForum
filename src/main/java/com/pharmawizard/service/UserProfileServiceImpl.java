@@ -1,13 +1,19 @@
 package com.pharmawizard.service;
 
-import java.util.Collection;
-import java.util.Optional;
+import java.io.IOException;
+import java.util.List;
 
-import com.pharmawizard.domain.UserCreateForm;
+import java.util.logging.Logger;
+
+import org.springframework.stereotype.Service;
+
 import com.pharmawizard.domain.UserProfile;
 import com.pharmawizard.repository.UserProfileRepository;
 
+@Service
 public class UserProfileServiceImpl implements UserProfileService {
+
+	private final Logger logger = Logger.getGlobal();
 
 	private final UserProfileRepository userProfileRepository;
 
@@ -16,27 +22,39 @@ public class UserProfileServiceImpl implements UserProfileService {
 	}
 
 	@Override
-	public UserProfile getUserById(long idUser) {
-		// TODO Auto-generated method stub
-		return null;
+	public UserProfile getUserById(Long idUser) {
+		return userProfileRepository.findOne(idUser);
 	}
 
 	@Override
 	public UserProfile getUserByEmail(String email) {
-		// TODO Auto-generated method stub
-		return null;
+		return userProfileRepository.findUserByEmail(email);
 	}
 
 	@Override
-	public Collection<UserProfile> getAllUsers() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<UserProfile> getAllUsers() {
+		return userProfileRepository.findAll();
 	}
 
 	@Override
-	public UserProfile create(UserCreateForm form) {
-		// TODO Auto-generated method stub
-		return null;
+	public UserProfile createUser(UserProfile user) {
+		return userProfileRepository.save(new UserProfile());
+	}
+
+	@Override
+	public UserProfile updateUser(UserProfile user) {
+		return userProfileRepository.save(user);
+
+	}
+
+	@Override
+	public void deleteUser(Long idUser) {
+		userProfileRepository.delete(idUser);
+	}
+
+	@Override
+	public UserProfile getUserByUsername(String username) {
+		return userProfileRepository.findByUsername(username);
 	}
 
 }
